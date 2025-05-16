@@ -56,22 +56,17 @@ const CryptoDashboard = () => {
   });
   const [watchlist, setWatchlist] = useState([]);
   const [timeRange, setTimeRange] = useState("24h");
-
-  // Kullanıcı giriş durumu (simüle edilmiş)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Simüle edilmiş API yükleme
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-      // Kullanıcı giriş kontrolü (simüle edilmiş)
       setIsLoggedIn(localStorage.getItem("cryptoAuthToken") !== null);
     }, 800);
     return () => clearTimeout(timer);
   }, []);
 
-  // Sıralama fonksiyonu
   const requestSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -80,7 +75,6 @@ const CryptoDashboard = () => {
     setSortConfig({ key, direction });
   };
 
-  // Filtreleme ve sıralama
   const filteredCrypto = mockCryptoData
     .filter((crypto) => {
       const matchesSearch =
@@ -103,7 +97,6 @@ const CryptoDashboard = () => {
       return 0;
     });
 
-  // İzlenecekler listesi fonksiyonları
   const toggleWatchlist = (id) => {
     if (!isLoggedIn) {
       navigate("/giris");
@@ -117,7 +110,6 @@ const CryptoDashboard = () => {
     }
   };
 
-  // Sıralama için sütun başlığı bileşeni
   const SortableHeader = ({ label, sortKey }) => (
     <th
       onClick={() => requestSort(sortKey)}
@@ -133,15 +125,12 @@ const CryptoDashboard = () => {
     </th>
   );
 
-  // Kullanıcı giriş/çıkış işlemleri
   const handleAuthAction = () => {
     if (isLoggedIn) {
-      // Çıkış yap
       localStorage.removeItem("cryptoAuthToken");
       setIsLoggedIn(false);
       setWatchlist([]);
     } else {
-      // Giriş sayfasına yönlendir
       navigate("/giris");
     }
   };
@@ -150,7 +139,7 @@ const CryptoDashboard = () => {
     <div className="crypto-dashboard bg-light">
       {/* Navigasyon Çubuğu */}
       <Navbar
-        bg="dark"
+        bg="primary"
         variant="dark"
         expand="lg"
         sticky="top"
@@ -166,7 +155,6 @@ const CryptoDashboard = () => {
 
           <Navbar.Collapse id="navbar-search">
             <div className="d-flex flex-column flex-lg-row w-100 align-items-lg-center">
-              {/* Ana Navigasyon Linkleri */}
               <Nav className="me-lg-3 mb-2 mb-lg-0">
                 <Nav.Link as={Link} to="/" className="d-flex align-items-center">
                   <FiHome className="me-1" />
@@ -297,20 +285,20 @@ const CryptoDashboard = () => {
         {/* Piyasa Genel Bakış Bölümü */}
         <Row className="g-3 mb-4">
           <Col xl={3} lg={6}>
-            <Card className="h-100 border-0 shadow-sm market-card">
-              <Card.Body>
+            <Card className="h-100 border-0 shadow-sm">
+              <Card.Body className="bg-gradient-primary text-white rounded-3">
                 <div className="d-flex align-items-center">
-                  <div className="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
-                    <FiDollarSign size={24} className="text-primary" />
+                  <div className="bg-white bg-opacity-20 p-3 rounded-circle me-3">
+                    <FiDollarSign size={24} />
                   </div>
                   <div>
-                    <Card.Title className="text-muted mb-1 small text-uppercase fw-bold">
+                    <Card.Title className="mb-1 small text-uppercase fw-bold opacity-75">
                       Toplam Piyasa Değeri
                     </Card.Title>
                     <h4 className="mb-0">
                       {formatPrice(marketStats.totalMarketCap)}
                     </h4>
-                    <div className="text-success small mt-1">
+                    <div className="small mt-1">
                       <FiTrendingUp className="me-1" />
                       +2.5% (24s)
                     </div>
@@ -321,20 +309,20 @@ const CryptoDashboard = () => {
           </Col>
 
           <Col xl={3} lg={6}>
-            <Card className="h-100 border-0 shadow-sm market-card">
-              <Card.Body>
+            <Card className="h-100 border-0 shadow-sm">
+              <Card.Body className="bg-gradient-success text-white rounded-3">
                 <div className="d-flex align-items-center">
-                  <div className="bg-success bg-opacity-10 p-3 rounded-circle me-3">
-                    <FiBarChart2 size={24} className="text-success" />
+                  <div className="bg-white bg-opacity-20 p-3 rounded-circle me-3">
+                    <FiBarChart2 size={24} />
                   </div>
                   <div>
-                    <Card.Title className="text-muted mb-1 small text-uppercase fw-bold">
+                    <Card.Title className="mb-1 small text-uppercase fw-bold opacity-75">
                       24s Hacim
                     </Card.Title>
                     <h4 className="mb-0">
                       {formatPrice(marketStats.totalVolume24h)}
                     </h4>
-                    <div className="text-success small mt-1">
+                    <div className="small mt-1">
                       <FiTrendingUp className="me-1" />
                       +12.3% (24s)
                     </div>
@@ -345,18 +333,18 @@ const CryptoDashboard = () => {
           </Col>
 
           <Col xl={3} lg={6}>
-            <Card className="h-100 border-0 shadow-sm market-card">
-              <Card.Body>
+            <Card className="h-100 border-0 shadow-sm">
+              <Card.Body className="bg-gradient-warning text-white rounded-3">
                 <div className="d-flex align-items-center">
-                  <div className="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
-                    <FiPieChart size={24} className="text-warning" />
+                  <div className="bg-white bg-opacity-20 p-3 rounded-circle me-3">
+                    <FiPieChart size={24} />
                   </div>
                   <div>
-                    <Card.Title className="text-muted mb-1 small text-uppercase fw-bold">
+                    <Card.Title className="mb-1 small text-uppercase fw-bold opacity-75">
                       BTC Hakimiyeti
                     </Card.Title>
                     <h4 className="mb-0">{marketStats.btcDominance}%</h4>
-                    <div className="text-danger small mt-1">
+                    <div className="small mt-1">
                       <FiTrendingUp
                         className="me-1"
                         style={{ transform: "rotate(180deg)" }}
@@ -370,20 +358,20 @@ const CryptoDashboard = () => {
           </Col>
 
           <Col xl={3} lg={6}>
-            <Card className="h-100 border-0 shadow-sm market-card">
-              <Card.Body>
+            <Card className="h-100 border-0 shadow-sm">
+              <Card.Body className="bg-gradient-info text-white rounded-3">
                 <div className="d-flex align-items-center">
-                  <div className="bg-info bg-opacity-10 p-3 rounded-circle me-3">
-                    <FiStar size={24} className="text-info" />
+                  <div className="bg-white bg-opacity-20 p-3 rounded-circle me-3">
+                    <FiStar size={24} />
                   </div>
                   <div>
-                    <Card.Title className="text-muted mb-1 small text-uppercase fw-bold">
+                    <Card.Title className="mb-1 small text-uppercase fw-bold opacity-75">
                       Aktif Kriptolar
                     </Card.Title>
                     <h4 className="mb-0">
                       {formatLargeNumber(marketStats.activeCryptocurrencies)}
                     </h4>
-                    <div className="text-muted small mt-1">
+                    <div className="small mt-1 opacity-75">
                       +{marketStats.upcomingIcos} yaklaşan ICO
                     </div>
                   </div>
@@ -498,7 +486,7 @@ const CryptoDashboard = () => {
                             />
                             <div>
                               <div className="fw-bold">
-                                <Link to={`/coin/${crypto.id}`} className="text-decoration-none">
+                                <Link to={`/coin/${crypto.id}`} className="text-decoration-none text-dark">
                                   {crypto.name}
                                 </Link>
                               </div>
@@ -611,7 +599,7 @@ const CryptoDashboard = () => {
                   <FiBarChart2 size={48} className="text-muted mb-3" />
                   <h5>Piyasa Eğilimleri Grafiği</h5>
                   <p className="text-muted">
-                    <Link to="/grafikler">Detaylı grafikler için tıklayın</Link>
+                    <Link to="/grafikler" className="text-primary">Detaylı grafikler için tıklayın</Link>
                   </p>
                 </div>
               </Card.Body>
@@ -623,7 +611,7 @@ const CryptoDashboard = () => {
               <Card.Header className="bg-white border-0 py-3">
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="mb-0 fw-bold">En Çok Yükselenler (24s)</h5>
-                  <Link to="/yukselecekler" className="small">
+                  <Link to="/yukselecekler" className="small text-primary">
                     Tümünü Gör
                   </Link>
                 </div>
@@ -656,7 +644,7 @@ const CryptoDashboard = () => {
                       </div>
                       <div className="flex-grow-1">
                         <div className="fw-bold">
-                          <Link to={`/coin/${crypto.id}`} className="text-decoration-none">
+                          <Link to={`/coin/${crypto.id}`} className="text-decoration-none text-dark">
                             {crypto.name}
                           </Link>
                         </div>
@@ -691,7 +679,7 @@ const CryptoDashboard = () => {
                             height="16"
                             className="me-1 rounded-circle"
                           />
-                          <Link to={`/coin/${crypto.id}`} className="text-decoration-none">
+                          <Link to={`/coin/${crypto.id}`} className="text-decoration-none text-dark">
                             {crypto.name}
                           </Link>
                         </span>
@@ -720,7 +708,7 @@ const CryptoDashboard = () => {
                     </div>
                   ))}
                 <div className="text-center mt-3">
-                  <Link to="/piyasa-hakimiyeti" className="small">
+                  <Link to="/piyasa-hakimiyeti" className="small text-primary">
                     Detaylı Piyasa Hakimiyeti Analizi
                   </Link>
                 </div>
@@ -736,7 +724,7 @@ const CryptoDashboard = () => {
               <Card.Header className="bg-white border-0 py-3">
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="mb-0 fw-bold">Son Haberler ve Duyurular</h5>
-                  <Link to="/haberler" className="small">
+                  <Link to="/haberler" className="small text-primary">
                     Tüm Haberler
                   </Link>
                 </div>
@@ -751,7 +739,7 @@ const CryptoDashboard = () => {
                         <Card.Text className="text-muted small">
                           Bitcoin fiyatı son 24 saatte %5 artış göstererek yeni bir rekor kırdı...
                         </Card.Text>
-                        <Link to="/haber/bitcoin-rekor" className="small">
+                        <Link to="/haber/bitcoin-rekor" className="small text-primary">
                           Devamını Oku
                         </Link>
                       </Card.Body>
@@ -765,7 +753,7 @@ const CryptoDashboard = () => {
                         <Card.Text className="text-muted small">
                           Ethereum ağı büyük güncellemeye hazırlanıyor. ETH fiyatına etkileri...
                         </Card.Text>
-                        <Link to="/haber/ethereum-guncelleme" className="small">
+                        <Link to="/haber/ethereum-guncelleme" className="small text-primary">
                           Devamını Oku
                         </Link>
                       </Card.Body>
@@ -779,7 +767,7 @@ const CryptoDashboard = () => {
                         <Card.Text className="text-muted small">
                           Terra ekibi yeni projelerini duyurdu. İşte detaylar...
                         </Card.Text>
-                        <Link to="/haber/luna-yeni-proje" className="small">
+                        <Link to="/haber/luna-yeni-proje" className="small text-primary">
                           Devamını Oku
                         </Link>
                       </Card.Body>
@@ -903,6 +891,7 @@ const CryptoDashboard = () => {
                     placeholder="E-posta adresiniz" 
                     type="email" 
                     required
+                    className="bg-secondary border-secondary text-white"
                   />
                   <Button variant="primary">Abone Ol</Button>
                 </InputGroup>
@@ -927,6 +916,18 @@ const CryptoDashboard = () => {
       <style jsx global>{`
         .crypto-dashboard {
           min-height: 100vh;
+        }
+        .bg-gradient-primary {
+          background: linear-gradient(135deg, #0d6efd, #6610f2);
+        }
+        .bg-gradient-success {
+          background: linear-gradient(135deg, #198754, #20c997);
+        }
+        .bg-gradient-warning {
+          background: linear-gradient(135deg, #ffc107, #fd7e14);
+        }
+        .bg-gradient-info {
+          background: linear-gradient(135deg, #0dcaf0, #0d6efd);
         }
         .market-card {
           transition: transform 0.2s;
@@ -959,10 +960,17 @@ const CryptoDashboard = () => {
         }
         a:hover {
           color: #0d6efd !important;
+          text-decoration: none;
         }
         .card-img-top {
           height: 150px;
           object-fit: cover;
+        }
+        .text-primary {
+          color: #0d6efd !important;
+        }
+        footer a:hover {
+          color: #fff !important;
         }
       `}</style>
     </div>
